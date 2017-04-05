@@ -1,0 +1,847 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+    Version="10.0"
+    VendorName="SlickEdit"
+    TemplateName="Cross Platform C++ Wizard"
+    WorkingDir=".">
+    <Config
+        Name="WinDebug"
+        Type="vcpp"
+        Version="1"
+        DebugCallbackName="windbg"
+        OutputFile="%bdfizix.exe"
+        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                Dialog="_vcpp_options_form Compile"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec
+                    CmdLine='cl /c %defs /W3 /GB /Ob0 /Gd /GS %~other /Fo"%bd%n%oe" %i "%f"'
+                    OtherOptions="/nologo"/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link"
+                ShowOnMenu="Never"
+                Dialog="_vcpp_options_form Link"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec
+                    CmdLine='link %~other /INCREMENTAL /OUT:"%o" %f %libs'
+                    OtherOptions="/NOLOGO"/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine="mingw32-make"/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine=""/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                Dialog="_vcpp_options_form Run/Debug"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rp">
+                <Exec CmdLine="release\fizix.exe"/>
+            </Target>
+            <Target
+                Name="DebugWinDbg"
+                MenuCaption="Debug - WinDbg"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec
+                    CmdLine="vcproj_windbg_debug"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="DebugVisualStudio"
+                MenuCaption="Debug - Visual Studio"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec CmdLine='devenv "%o"'/>
+            </Target>
+            <Target
+                Name="DebugMDbg"
+                MenuCaption="&amp;Debug - MDbg"
+                Dialog="_vcpp_options_form Run/Debug"
+                Deletable="0"
+                SaveOption="SaveNone"
+                EnableBuildFirst="0"
+                RunFromDir="%rw">
+                <Exec CmdLine='mdbg "%o"'/>
+            </Target>
+            <Target
+                Name="dash"
+                MenuCaption="-"
+                Deletable="0">
+                <Exec/>
+            </Target>
+            <Target
+                Name="Visual C++ Options"
+                MenuCaption="Visual C++ &amp;Options..."
+                ShowOnMenu="HideIfNoCmdLine"
+                Deletable="0"
+                SaveOption="SaveNone">
+                <Exec
+                    CmdLine="vcppoptions"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="Build Debug"
+                MenuCaption="&amp;Build Debug"
+                RunFromDir="%rw"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles">
+                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+            </Target>
+        </Menu>
+        <Includes>
+            <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
+        </Includes>
+        <List Name="GNUC Options">
+            <Item
+                Name="LinkerOutputType"
+                Value="Executable"/>
+        </List>
+        <PreBuildCommands StopOnError="1">
+            <Exec CmdLine="qmake -makefile"/>
+        </PreBuildCommands>
+        <Libs PreObjects="0">
+            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+        </Libs>
+    </Config>
+    <Config
+        Name="WinRelease"
+        Type="vcpp"
+        Version="1"
+        DebugCallbackName="windbg"
+        OutputFile="%bdfizix.exe"
+        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                Dialog="_vcpp_options_form Compile"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec
+                    CmdLine='cl /c %defs /W3 /GB /Ob0 /Gd /GS %~other /Fo"%bd%n%oe" %i "%f"'
+                    OtherOptions="/nologo"/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link"
+                ShowOnMenu="Never"
+                Dialog="_vcpp_options_form Link"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec
+                    CmdLine='link %~other /INCREMENTAL /OUT:"%o" %f %libs'
+                    OtherOptions="/NOLOGO"/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine="mingw32-make"/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine=""/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                Dialog="_vcpp_options_form Run/Debug"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rp">
+                <Exec CmdLine="release\fizix.exe"/>
+            </Target>
+            <Target
+                Name="DebugWinDbg"
+                MenuCaption="Debug - WinDbg"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec
+                    CmdLine="vcproj_windbg_debug"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="DebugVisualStudio"
+                MenuCaption="Debug - Visual Studio"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec CmdLine='devenv "%o"'/>
+            </Target>
+            <Target
+                Name="DebugMDbg"
+                MenuCaption="&amp;Debug - MDbg"
+                Dialog="_vcpp_options_form Run/Debug"
+                Deletable="0"
+                SaveOption="SaveNone"
+                EnableBuildFirst="0"
+                RunFromDir="%rw">
+                <Exec CmdLine='mdbg "%o"'/>
+            </Target>
+            <Target
+                Name="dash"
+                MenuCaption="-"
+                Deletable="0">
+                <Exec/>
+            </Target>
+            <Target
+                Name="Visual C++ Options"
+                MenuCaption="Visual C++ &amp;Options..."
+                ShowOnMenu="HideIfNoCmdLine"
+                Deletable="0"
+                SaveOption="SaveNone">
+                <Exec
+                    CmdLine="vcppoptions"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="Build Debug"
+                MenuCaption="&amp;Build Debug"
+                RunFromDir="%rw"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles">
+                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+            </Target>
+        </Menu>
+        <Includes>
+            <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
+        </Includes>
+        <List Name="GNUC Options">
+            <Item
+                Name="LinkerOutputType"
+                Value="Executable"/>
+        </List>
+        <PreBuildCommands StopOnError="1">
+            <Exec CmdLine="qmake -makefile"/>
+        </PreBuildCommands>
+        <Libs PreObjects="0">
+            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+        </Libs>
+    </Config>
+    <Config
+        Name="UnixDebug"
+        Type="gnuc"
+        DebugCallbackName="gdb"
+        Version="1"
+        OutputFile="%bdfizix.exe"
+        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                Dialog="_gnuc_options_form Compile"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='g++ -c %xup  %defd -g -o "%bd%n%oe" %i "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link"
+                ShowOnMenu="Never"
+                Dialog="_gnuc_options_form Link"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='g++ %xup -g -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine="mingw32-make"/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine=""/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                Dialog="_gnuc_options_form Run/Debug"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                Dialog="_gnuc_options_form Run/Debug"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rp">
+                <Exec CmdLine="release\fizix.exe"/>
+            </Target>
+            <Target
+                Name="dash"
+                MenuCaption="-"
+                Deletable="0">
+                <Exec/>
+            </Target>
+            <Target
+                Name="GNU C Options"
+                MenuCaption="GNU C &amp;Options..."
+                ShowOnMenu="HideIfNoCmdLine"
+                Deletable="0"
+                SaveOption="SaveNone">
+                <Exec
+                    CmdLine="gnucoptions"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="Build Debug"
+                MenuCaption="&amp;Build Debug"
+                RunFromDir="%rw"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles">
+                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+            </Target>
+        </Menu>
+        <List Name="GNUC Options">
+            <Item
+                Name="LinkerOutputType"
+                Value="Executable"/>
+        </List>
+        <PreBuildCommands StopOnError="1">
+            <Exec CmdLine="qmake -makefile"/>
+        </PreBuildCommands>
+        <Includes>
+            <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
+        </Includes>
+        <Libs PreObjects="0">
+            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+        </Libs>
+    </Config>
+    <Config
+        Name="UnixRelease"
+        Type="gnuc"
+        DebugCallbackName="gdb"
+        Version="1"
+        OutputFile="%bdfizix.exe"
+        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                Dialog="_gnuc_options_form Compile"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='g++ -c %xup %defd -o "%bd%n%oe" %i "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link"
+                ShowOnMenu="Never"
+                Dialog="_gnuc_options_form Link"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='g++ %xup -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine="mingw32-make"/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine=""/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                Dialog="_gnuc_options_form Run/Debug"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                Dialog="_gnuc_options_form Run/Debug"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rp">
+                <Exec CmdLine="release\fizix.exe"/>
+            </Target>
+            <Target
+                Name="dash"
+                MenuCaption="-"
+                Deletable="0">
+                <Exec/>
+            </Target>
+            <Target
+                Name="GNU C Options"
+                MenuCaption="GNU C &amp;Options..."
+                ShowOnMenu="HideIfNoCmdLine"
+                Deletable="0"
+                SaveOption="SaveNone">
+                <Exec
+                    CmdLine="gnucoptions"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="Build Debug"
+                MenuCaption="&amp;Build Debug"
+                RunFromDir="%rw"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles">
+                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+            </Target>
+        </Menu>
+        <List Name="GNUC Options">
+            <Item
+                Name="LinkerOutputType"
+                Value="Executable"/>
+        </List>
+        <PreBuildCommands StopOnError="1">
+            <Exec CmdLine="qmake -makefile"/>
+        </PreBuildCommands>
+        <Includes>
+            <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
+        </Includes>
+        <Libs PreObjects="0">
+            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+        </Libs>
+    </Config>
+    <Config
+        Name="MacDebug"
+        Type="gnuc"
+        DebugCallbackName="gdb"
+        Version="1"
+        OutputFile="%bdfizix.exe"
+        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                Dialog="_gnuc_options_form Compile"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='clang++ -c %xup  %defd -g -o "%bd%n%oe" %i "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link"
+                ShowOnMenu="Never"
+                Dialog="_gnuc_options_form Link"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='clang++ %xup -g -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine="mingw32-make"/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine=""/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                Dialog="_gnuc_options_form Run/Debug"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                Dialog="_gnuc_options_form Run/Debug"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rp">
+                <Exec CmdLine="release\fizix.exe"/>
+            </Target>
+            <Target
+                Name="dash"
+                MenuCaption="-"
+                Deletable="0">
+                <Exec/>
+            </Target>
+            <Target
+                Name="Clang Options"
+                MenuCaption="Clang &amp;Options..."
+                ShowOnMenu="HideIfNoCmdLine"
+                Deletable="0"
+                SaveOption="SaveNone">
+                <Exec
+                    CmdLine="clangoptions"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="Build Debug"
+                MenuCaption="&amp;Build Debug"
+                RunFromDir="%rw"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles">
+                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+            </Target>
+        </Menu>
+        <List Name="GNUC Options">
+            <Item
+                Name="LinkerOutputType"
+                Value="Executable"/>
+        </List>
+        <PreBuildCommands StopOnError="1">
+            <Exec CmdLine="qmake -makefile"/>
+        </PreBuildCommands>
+        <Includes>
+            <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
+        </Includes>
+        <Libs PreObjects="0">
+            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+        </Libs>
+    </Config>
+    <Config
+        Name="MacRelease"
+        Type="gnuc"
+        DebugCallbackName="gdb"
+        Version="1"
+        OutputFile="%bdfizix.exe"
+        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        <Menu>
+            <Target
+                Name="Compile"
+                MenuCaption="&amp;Compile"
+                Dialog="_gnuc_options_form Compile"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                OutputExts="*.o"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='clang++ -c %xup %defd -o "%bd%n%oe" %i "%f"'/>
+            </Target>
+            <Target
+                Name="Link"
+                MenuCaption="&amp;Link"
+                ShowOnMenu="Never"
+                Dialog="_gnuc_options_form Link"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveCurrent"
+                RunFromDir="%rw">
+                <Exec CmdLine='clang++ %xup -o "%o" %f %libs'/>
+            </Target>
+            <Target
+                Name="Build"
+                MenuCaption="&amp;Build"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine="mingw32-make"/>
+            </Target>
+            <Target
+                Name="Rebuild"
+                MenuCaption="&amp;Rebuild"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rw">
+                <Exec CmdLine=""/>
+            </Target>
+            <Target
+                Name="Debug"
+                MenuCaption="&amp;Debug"
+                Dialog="_gnuc_options_form Run/Debug"
+                BuildFirst="1"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveNone"
+                RunFromDir="%rw">
+                <Exec CmdLine='vsdebugio -prog "%o"'/>
+            </Target>
+            <Target
+                Name="Execute"
+                MenuCaption="E&amp;xecute"
+                Dialog="_gnuc_options_form Run/Debug"
+                CaptureOutputWith="ProcessBuffer"
+                Deletable="0"
+                SaveOption="SaveWorkspaceFiles"
+                RunFromDir="%rp">
+                <Exec CmdLine="release\fizix.exe"/>
+            </Target>
+            <Target
+                Name="dash"
+                MenuCaption="-"
+                Deletable="0">
+                <Exec/>
+            </Target>
+            <Target
+                Name="Clang Options"
+                MenuCaption="Clang &amp;Options..."
+                ShowOnMenu="HideIfNoCmdLine"
+                Deletable="0"
+                SaveOption="SaveNone">
+                <Exec
+                    CmdLine="clangoptions"
+                    Type="Slick-C"/>
+            </Target>
+            <Target
+                Name="Build Debug"
+                MenuCaption="&amp;Build Debug"
+                RunFromDir="%rw"
+                CaptureOutputWith="ProcessBuffer"
+                SaveOption="SaveWorkspaceFiles">
+                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+            </Target>
+        </Menu>
+        <List Name="GNUC Options">
+            <Item
+                Name="LinkerOutputType"
+                Value="Executable"/>
+        </List>
+        <PreBuildCommands StopOnError="1">
+            <Exec CmdLine="qmake -makefile"/>
+        </PreBuildCommands>
+        <Includes>
+            <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
+        </Includes>
+        <Libs PreObjects="0">
+            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+        </Libs>
+    </Config>
+    <Files>
+        <Folder
+            Name="Source Files"
+            Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d;*.m;*.mm;*.go">
+            <F
+                N="*.c"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.c"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.c++"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.c++"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.cc"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.cc"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.cp"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.cp"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.cpp"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.cpp"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.cxx"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.cxx"
+                Recurse="1"
+                Excludes=""/>
+            <F N="renderarea.cpp"/>
+            <F N="shapeobj.cpp"/>
+            <F N="window.cpp"/>
+        </Folder>
+        <Folder
+            Name="Header Files"
+            Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.h++;*.inc;*.sh;*.cpy;*.if">
+            <F
+                N="*.h"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.h"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.hh"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.hh"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.hpp"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.hpp"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.hxx"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.hxx"
+                Recurse="1"
+                Excludes=""/>
+            <F N="commontypes.h"/>
+            <F N="renderarea.h"/>
+            <F N="shapeobj.h"/>
+            <F N="window.h"/>
+        </Folder>
+        <Folder
+            Name="Resource Files"
+            Filters="*.ico;*.cur;*.dlg"/>
+        <Folder
+            Name="Bitmaps"
+            Filters="*.bmp"/>
+        <Folder
+            Name="Other Files"
+            Filters="">
+            <F
+                N="*.inl"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.inl"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.mrf"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.mrf"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.prod"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.prod"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.scf"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.scf"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="*.xpm"
+                Recurse="1"
+                Excludes=""/>
+            <F
+                N="/Qt/5.8/mingw53_32/include/*.xpm"
+                Recurse="1"
+                Excludes=""/>
+            <F N="fizix.pro"/>
+        </Folder>
+    </Files>
+</Project>
