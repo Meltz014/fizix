@@ -1,7 +1,7 @@
 enum ShapeType {
-   FLine,
    FRect,
    FCirc,
+   FLine,
+   NUM_SHAPES,
 };
-
 

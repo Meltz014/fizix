@@ -13,12 +13,14 @@ class Window : public QWidget
 
  public:
    Window( );
+   void setFPS( float fps );
 
  private slots:
    void penChanged(  );
 
  private:
    RenderArea *renderArea;
-   QLabel *penWidthLabel;
-   QSpinBox *penWidthSpinBox;
+   QLabel *newShapeLabel;
+   QSpinBox *newShapeSpinBox;
+   QLabel *fpsCounterLabel;
 };

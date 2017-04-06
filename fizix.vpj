@@ -748,6 +748,7 @@
                 N="/Qt/5.8/mingw53_32/include/*.cxx"
                 Recurse="1"
                 Excludes=""/>
+            <F N="animator.cpp"/>
             <F N="renderarea.cpp"/>
             <F N="shapeobj.cpp"/>
             <F N="window.cpp"/>
@@ -787,6 +788,7 @@
                 N="/Qt/5.8/mingw53_32/include/*.hxx"
                 Recurse="1"
                 Excludes=""/>
+            <F N="animator.h"/>
             <F N="commontypes.h"/>
             <F N="renderarea.h"/>
             <F N="shapeobj.h"/>

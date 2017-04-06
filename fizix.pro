@@ -10,5 +10,5 @@ CONFIG += console
 # Input
 QT += core
 QT += widgets
-HEADERS += window.h commontypes.h renderarea.h shapeobj.h
-SOURCES += window.cpp main.cpp renderarea.cpp shapeobj.cpp
+HEADERS += window.h commontypes.h renderarea.h shapeobj.h animator.h
+SOURCES += window.cpp main.cpp renderarea.cpp shapeobj.cpp animator.cpp

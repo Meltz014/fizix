@@ -1,7 +1,6 @@
-#include "shapeobj.h"
+#include "animator.h"
 #include <QPixmap>
 #include <QWidget>
-#include <vector>
 
 class RenderArea : public QWidget
 {
@@ -12,6 +11,7 @@ class RenderArea : public QWidget
 
    QSize minimumSizeHint( ) const override;
    QSize sizeHint( ) const override;
+   void setNewShape( ShapeType new_shape );
 
  public slots:
    void addShape( ShapeObj new_shape );
@@ -20,11 +20,16 @@ class RenderArea : public QWidget
    void paintEvent( QPaintEvent *event ) override;
    void mousePressEvent( QMouseEvent *event ) override;
    void mouseMoveEvent( QMouseEvent *event ) override;
+   void mouseReleaseEvent( QMouseEvent *event ) override;
+   void timerEvent( QTimerEvent *event ) override;
 
  private:
+   ShapeType new_shape_type = FCirc;
    ShapeObj *drag_shape;
    std::vector<ShapeObj> all_shapes;
-   QPoint drag_offset = QPoint( 0, 0 );
+   Animator animator;
+   QPointF drag_offset = QPointF( 0.0, 0.0 );
+   QTime drag_timer = QTime( );
 };
 
 
