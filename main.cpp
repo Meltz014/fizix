@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
 #include "window.h"
+#include <QApplication>
 
 int main(int argc, char **argv)
 {

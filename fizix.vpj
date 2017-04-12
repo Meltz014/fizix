@@ -749,6 +749,7 @@
                 Recurse="1"
                 Excludes=""/>
             <F N="animator.cpp"/>
+            <F N="collisions.cpp"/>
             <F N="renderarea.cpp"/>
             <F N="shapeobj.cpp"/>
             <F N="window.cpp"/>
@@ -789,6 +790,7 @@
                 Recurse="1"
                 Excludes=""/>
             <F N="animator.h"/>
+            <F N="collisions.h"/>
             <F N="commontypes.h"/>
             <F N="renderarea.h"/>
             <F N="shapeobj.h"/>

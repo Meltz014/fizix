@@ -1,7 +1,7 @@
-#include <QDebug>
-#include "renderarea.h"
 #include "window.h"
+#include "renderarea.h"
 #include <QtWidgets>
+#include <QDebug>
 
 Window::Window( )
 {

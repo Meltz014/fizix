@@ -1,4 +1,4 @@
-#include <QWidget>
+#include "commontypes.h"
 
 class QCheckBox;
 class QComboBox;

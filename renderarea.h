@@ -1,6 +1,5 @@
+#include "commontypes.h"
 #include "animator.h"
-#include <QPixmap>
-#include <QWidget>
 
 class RenderArea : public QWidget
 {
@@ -30,6 +29,8 @@ class RenderArea : public QWidget
    Animator animator;
    QPointF drag_offset = QPointF( 0.0, 0.0 );
    QTime drag_timer = QTime( );
+
+   struct Node * aabb_tree_root;
 };
 
 

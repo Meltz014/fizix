@@ -7,32 +7,52 @@ Animator::Animator( std::vector<ShapeObj> *all_shapes )
    time.start( );
 }
 
-bool Animator::checkBoundsCollisionX( QRect& bounds, QPainterPath& shape_path )
+bool Animator::checkBoundsCollisionX( QRect& bounds, QPainterPath& shape_path, float * dist_to_move )
 {
    QPainterPath left = QPainterPath( bounds.topLeft( ) );
    QPainterPath right = QPainterPath( bounds.topRight( ) );
+   QPainterPath bounds_path;
+   bool check = false;
+
    left.lineTo( bounds.bottomLeft( ) );
    right.lineTo( bounds.bottomRight( ) );
-   if ( shape_path.intersects( left ) ||
-        shape_path.intersects( right ) )
+   if ( shape_path.intersects( left ) )
    {
-      return true;
+      bounds_path.addRect( bounds );
+      (*dist_to_move) = shape_path.subtracted( bounds_path ).boundingRect( ).width( );
+      check = true;
    }
-   return false;
+   else if ( shape_path.intersects( right ) )
+   {
+      bounds_path.addRect( bounds );
+      (*dist_to_move) = -shape_path.subtracted( bounds_path ).boundingRect( ).width( );
+      check = true;
+   }
+   return check;
 }
 
-bool Animator::checkBoundsCollisionY( QRect& bounds, QPainterPath& shape_path )
+bool Animator::checkBoundsCollisionY( QRect& bounds, QPainterPath& shape_path, float * dist_to_move )
 {
    QPainterPath top = QPainterPath( bounds.topLeft( ) );
    QPainterPath bot = QPainterPath( bounds.bottomLeft( ) );
+   QPainterPath bounds_path;
+   bool check = false;
+
    top.lineTo( bounds.topRight( ) );
    bot.lineTo( bounds.bottomRight( ) );
-   if ( shape_path.intersects( top ) ||
-        shape_path.intersects( bot ) )
+   if ( shape_path.intersects( top ) )
    {
-      return true;
+      bounds_path.addRect( bounds );
+      (*dist_to_move) = shape_path.subtracted( bounds_path ).boundingRect( ).height( );
+      check = true;
    }
-   return false;
+   else if( shape_path.intersects( bot ) )
+   {
+      bounds_path.addRect( bounds );
+      (*dist_to_move) = -shape_path.subtracted( bounds_path ).boundingRect( ).height( );
+      check = true;
+   }
+   return check;
 }
 
 float Animator::getFPS( )
@@ -42,41 +62,60 @@ float Animator::getFPS( )
 
 void Animator::animateNextFrame( QRect bounds )
 {
-   QPointF vel( 0.0, 0.0 );
-   QPointF travel_dist( 0.0, 0.0 );
-   QPainterPath shape_path;
-   int elapsed = 0; // msec elapsed since last frame
-   for ( int shape_idx = 0; shape_idx < ( int ) all_shapes->size( ); shape_idx++ )
+
+   for ( uint32 shape_idx = 0; shape_idx < ( uint32 ) all_shapes->size( ); shape_idx++ )
    {
       // only animate if shape is not being dragged
       if ( !(*all_shapes)[ shape_idx ].drag_state )
       {
-         shape_path = (*all_shapes)[ shape_idx ].getPath( );
-         elapsed = time.elapsed( );
-         vel = ( *all_shapes )[ shape_idx ].getVelocity( );
-         // check collision with boundary
-         if ( !bounds.contains( shape_path.boundingRect( ).toRect( ) ) )
-         {
-            if ( checkBoundsCollisionX( bounds, shape_path ) )
-            {
-               vel.setX( -vel.x( ) );
-            }
-            if ( checkBoundsCollisionY( bounds, shape_path ) )
-            {
-               vel.setY( -vel.y( ) );
-            }
-            (*all_shapes)[ shape_idx ].setVelocity( vel );
-         }
-         // v = d/t
-         // d = v*t
-         travel_dist = vel * ( elapsed / 1000.0F );
-         //qDebug( ) << "dist" << travel_dist << "vel" << vel << "elapsed" << elapsed;
-         ( *all_shapes )[ shape_idx ].setCenter( travel_dist
-                                                 + ( *all_shapes )[ shape_idx ].getCenter( ) );
+
+         // TODO:  apply forces
+         // TODO:  detect collisions with other objects
+         // TODO:  resolve collisions
+         calcNewPos( shape_idx, bounds );
       }
    }
    // calculate frames per second
    fps = 1000.0F / time.elapsed( );
    time.restart( );
    return;
+}
+
+void Animator::calcNewPos( uint32 shape_idx, QRect& bounds )
+{
+   QPainterPath shape_path;
+   QPointF vel( 0.0, 0.0 );
+   QPointF travel_dist( 0.0, 0.0 );
+   QPointF new_center( 0.0, 0.0 );
+   float dist_to_move = 0.0F;
+   int elapsed = 0; // msec elapsed since last frame
+   bool aabb_updated = false;
+
+   shape_path = ( *all_shapes )[ shape_idx ].getPath( );
+   elapsed = time.elapsed( );
+   vel = ( *all_shapes )[ shape_idx ].getVelocity( );
+
+   // check collision with boundary
+   if ( !bounds.contains( shape_path.boundingRect( ).toRect( ) ) )
+   {
+      new_center = (*all_shapes)[ shape_idx ].getCenter( );
+      if ( checkBoundsCollisionX( bounds, shape_path, &dist_to_move ) )
+      {
+         vel.setX( -vel.x( ) );
+         new_center.setX( new_center.x( ) + dist_to_move );
+      }
+      if ( checkBoundsCollisionY( bounds, shape_path, &dist_to_move ) )
+      {
+         vel.setY( -vel.y( ) );
+         new_center.setY( new_center.y( ) + dist_to_move );
+      }
+      (*all_shapes)[ shape_idx ].setCenter( new_center );
+      (*all_shapes)[ shape_idx ].setVelocity( vel );
+   }
+   // v = d/t
+   // d = v*t
+   travel_dist = vel * ( elapsed / 1000.0F );
+   //qDebug( ) << "dist" << travel_dist << "vel" << vel << "elapsed" << elapsed;
+   aabb_updated = ( *all_shapes )[ shape_idx ].setCenter( travel_dist
+                                           + ( *all_shapes )[ shape_idx ].getCenter( ) );
 }

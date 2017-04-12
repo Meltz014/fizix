@@ -1,15 +1,13 @@
 #include "commontypes.h"
-#include <QBrush>
-#include <QPen>
-#include <QPainter>
-#include <QFlags>
+
+#define DRAW_AABB 1
 
 class ShapeObj
 {
  public:
    bool drag_state = false;
    ShapeObj( ShapeType shape_type );
-   void setCenter( QPointF center );
+   bool setCenter( QPointF center );
    void setSize( QSizeF size );
    void setPen( QPen pen );
    void setBrush( QBrush brush );
@@ -23,9 +21,10 @@ class ShapeObj
    ShapeType getShapeType( );
    void draw( QPainter& painter );
    bool intersects( ShapeObj& other );
-
+   QRectF getAABB( );
 
  private:
+   QRectF aabb = QRectF( );
    ShapeType shape_type;
    QPointF velocity = QPoint( 0.0, 0.0 );
    QPointF center = QPoint( 0.0, 0.0 );
@@ -33,5 +32,6 @@ class ShapeObj
    QPen pen = QPen( Qt::blue );
    QBrush brush = QBrush( );
    QPainterPath path;
-   void updatePath( );
+   bool updatePath( );
+   bool updateAABB( );
 };

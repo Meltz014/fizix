@@ -11,13 +11,15 @@ RenderArea::RenderArea( QWidget * parent )
    : QWidget( parent ), animator( &all_shapes )
 {
    drag_shape = NULL;
+   aabb_tree_root = NULL;
    setBackgroundRole( QPalette::Base );
    setAutoFillBackground( true );
 
    srand( time( NULL ) );
    drag_timer.start( );
+
    // start timer
-   startTimer( 5 );
+   //startTimer( 5 );
 }
 
 QSize RenderArea::minimumSizeHint() const
@@ -27,13 +29,21 @@ QSize RenderArea::minimumSizeHint() const
 
 QSize RenderArea::sizeHint() const
 {
-    return QSize(400, 200);
+    return QSize(800, 500);
 }
 
 void RenderArea::addShape( ShapeObj new_shape )
 {
+   // allocate new node for aabb tree
+   struct Node * new_node = ( struct Node * ) malloc( sizeof( struct Node ) );
+
+   // add shape obj to vector of shapes
    this->all_shapes.push_back( new_shape );
-   update( );
+   // populate and insert new node
+   new_node->shape_idx = this->all_shapes.size( )-1;
+   new_node->aabb = new_shape.getAABB( );
+   insert_aabb_node( &aabb_tree_root, new_node );
+   return;
 }
 
 void RenderArea::timerEvent( QTimerEvent * /* event */ )
@@ -105,6 +115,15 @@ void RenderArea::paintEvent( QPaintEvent * /* event */ )
       painter.restore( );
    }
 
+   //// draw aabb boxes 
+   /// 
+   if ( aabb_tree_root != NULL )
+   {
+      painter.save( );
+      draw_aabb_from_tree( aabb_tree_root, painter );
+      painter.restore( );
+   }
+
    // Draw border around render area
    painter.setRenderHint(QPainter::Antialiasing, false);
    painter.setPen(palette().dark().color());
@@ -145,13 +164,14 @@ void RenderArea::mousePressEvent( QMouseEvent *event )
    else if ( button & Qt::RightButton )
    {
       ShapeObj new_shape = ShapeObj( this->new_shape_type );
+      uint32 shape_idx;
       new_shape.setPen( QPen( Qt::blue, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
       new_shape.setBrush( QBrush( ) );
       new_shape.setCenter( QPoint( x_coord, y_coord ) );
       new_shape.setSize( QSize( 80, 80 ) );
       randX = ( float ) ( rand( ) % 20 ) - 10;
       randY = ( float ) ( rand( ) % 20 ) - 10;
-      new_shape.setVelocity( QPointF( randX, randY ) );
+      //new_shape.setVelocity( QPointF( randX, randY ) );
       addShape( new_shape );
       drag_offset = QPoint( 0, 0 );
       drag_shape = NULL;

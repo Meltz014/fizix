@@ -5,10 +5,10 @@ ShapeObj::ShapeObj( ShapeType shape_type )
    this->shape_type = shape_type;
 }
 
-void ShapeObj::setCenter( QPointF center )
+bool ShapeObj::setCenter( QPointF center )
 {
    this->center = center;
-   updatePath();
+   return updatePath();
 }
 
 void ShapeObj::setSize( QSizeF size )
@@ -69,7 +69,7 @@ ShapeType ShapeObj::getShapeType( )
    return this->shape_type;
 }
 
-void ShapeObj::updatePath( )
+bool ShapeObj::updatePath( )
 {
    QPointF top_left = center - QPointF( size.width( ) / 2.0,
                                         size.height( ) / 2.0 );
@@ -89,6 +89,24 @@ void ShapeObj::updatePath( )
       default:
          break;
    }
+
+   return updateAABB( );
+}
+
+bool ShapeObj::updateAABB( )
+{
+   // returns true if aabb was updated
+
+   // update aabb
+   // only update aabb if it's empty
+   // OR current path is not already fully contained
+   if ( aabb.isEmpty( ) || !aabb.contains( path.controlPointRect( ) ) )
+   {
+      aabb = path.controlPointRect( );
+      aabb.adjust( -FAT_FACTOR, -FAT_FACTOR, FAT_FACTOR, FAT_FACTOR );
+      return true;
+   }
+   return false;
 }
 
 void ShapeObj::draw( QPainter& painter )
@@ -98,9 +116,18 @@ void ShapeObj::draw( QPainter& painter )
    painter.setBrush( this->brush );
    painter.setRenderHint( QPainter::Antialiasing, true );
    painter.drawPath( this->path );
+#if DRAW_AABB
+   painter.setPen( QPen( Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+   painter.drawRect( this->aabb );
+#endif
 }
 
 bool ShapeObj::intersects( ShapeObj& other )
 {
    return this->path.intersects( other.getPath( ) );
+}
+
+QRectF ShapeObj::getAABB( )
+{
+   return this->aabb;
 }
