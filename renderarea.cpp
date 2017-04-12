@@ -19,7 +19,7 @@ RenderArea::RenderArea( QWidget * parent )
    drag_timer.start( );
 
    // start timer
-   //startTimer( 5 );
+   startTimer( 5 );
 }
 
 QSize RenderArea::minimumSizeHint() const
@@ -37,8 +37,12 @@ void RenderArea::addShape( ShapeObj new_shape )
    // allocate new node for aabb tree
    struct Node * new_node = ( struct Node * ) malloc( sizeof( struct Node ) );
 
+   // store reference to node in shape obj
+   new_shape.node = new_node;
+
    // add shape obj to vector of shapes
    this->all_shapes.push_back( new_shape );
+
    // populate and insert new node
    new_node->shape_idx = this->all_shapes.size( )-1;
    new_node->aabb = new_shape.getAABB( );
@@ -46,9 +50,29 @@ void RenderArea::addShape( ShapeObj new_shape )
    return;
 }
 
+void RenderArea::removeShape( int shape_idx )
+{
+   // remove shape's node from aabb tree
+   remove_node( &aabb_tree_root, all_shapes[ shape_idx ].node );
+
+   // swap current shape with last shape
+   std::swap( all_shapes[ shape_idx ], all_shapes.back( ) );
+
+   // remove last shape in vector
+   all_shapes.pop_back( );
+
+   // since shape was swapped with the end shape, update
+   // the swapped shape's node's shape_idx
+   if ( (int)all_shapes.size( ) > shape_idx )
+   {
+      all_shapes[ shape_idx ].node->shape_idx = (uint32)shape_idx;
+   }
+   return;
+}
+
 void RenderArea::timerEvent( QTimerEvent * /* event */ )
 {
-   this->animator.animateNextFrame( rect( ) );
+   this->animator.animateNextFrame( aabb_tree_root, rect( ) );
    update( );
    return;
 }
@@ -71,9 +95,7 @@ void RenderArea::paintEvent( QPaintEvent * /* event */ )
          // if no intersection, shape is out of canvas and should be removed
          if ( !QRectF( rect( ) ).intersects( all_shapes[ shape_idx ].getPath( ).boundingRect( ) ) )
          {
-            qDebug( ) << "remove" << shape_idx;
-            std::swap( all_shapes[ shape_idx ], all_shapes.back( ) );
-            all_shapes.pop_back( );
+            removeShape( shape_idx );
             shape_idx--;
          }
       }
@@ -142,7 +164,6 @@ void RenderArea::mousePressEvent( QMouseEvent *event )
    float randX = 0.0F;
    float randY = 0.0F;
 
-   qDebug( ) << "FPS" << animator.getFPS( );
    if ( button & Qt::LeftButton )
    {
       for ( int i = 0; i < ( int )all_shapes.size( ); i++ )

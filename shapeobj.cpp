@@ -3,6 +3,7 @@
 ShapeObj::ShapeObj( ShapeType shape_type )
 {
    this->shape_type = shape_type;
+   this->node = NULL;
 }
 
 bool ShapeObj::setCenter( QPointF center )

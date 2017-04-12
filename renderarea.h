@@ -11,6 +11,7 @@ class RenderArea : public QWidget
    QSize minimumSizeHint( ) const override;
    QSize sizeHint( ) const override;
    void setNewShape( ShapeType new_shape );
+   void removeShape( int shape_idx );
 
  public slots:
    void addShape( ShapeObj new_shape );

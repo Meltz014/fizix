@@ -3,10 +3,10 @@
 #include <cfloat>
 
 // search the aabb binary tree for any nodes that intersect with the given aabb rect
-void get_intersecting_nodes( struct Node * test_node, QRectF& aabb, std::vector<uint32> *output_shape_idx )
+void get_intersecting_nodes( struct Node * test_node, uint32 current_shape_idx, QRectF aabb, std::vector<uint32> *output_shape_idx )
 {
-   // make sure test nod is not null
-   if ( test_node == NULL )
+   // make sure test node is not null
+   if ( ( test_node == NULL ) || ( test_node->shape_idx == current_shape_idx ) )
    {
       return;
    }
@@ -22,8 +22,8 @@ void get_intersecting_nodes( struct Node * test_node, QRectF& aabb, std::vector<
       else
       {
          // query each child
-         get_intersecting_nodes( test_node->left, aabb, output_shape_idx );
-         get_intersecting_nodes( test_node->right, aabb, output_shape_idx );
+         get_intersecting_nodes( test_node->left, current_shape_idx, aabb, output_shape_idx );
+         get_intersecting_nodes( test_node->right, current_shape_idx, aabb, output_shape_idx );
       }
    }
 
@@ -60,6 +60,59 @@ void recalculate_tree_up( struct Node * node )
       // step up recursively
       recalculate_tree_up( node->parent );
    }
+   return;
+}
+
+void remove_node( struct Node ** root, struct Node * node )
+{
+   if ( node->parent == NULL )
+   {
+      qDebug( ) << "is root";
+      free( node );
+      *root = NULL;
+      return;
+   }
+
+   // replace this node's parent with its sibling
+   struct Node * sibling = NULL;
+   if ( node->parent->left == node )
+   {
+      sibling = node->parent->right;
+   }
+   else
+   {
+      sibling = node->parent->left;
+   }
+
+   // check for a grandparent
+   if ( node->parent->parent != NULL )
+   {
+      struct Node * grandpa = node->parent->parent;
+
+      if ( grandpa->left == node->parent )
+      {
+         grandpa->left = sibling;
+      }
+      else
+      {
+         grandpa->right = sibling;
+      }
+
+      // set sibling's parent to grandparent
+      sibling->parent = grandpa;
+
+      free( node->parent );
+      free( node );
+   }
+   else
+   {
+      // parent is root.  Replace root with sibling
+      *root = sibling;
+      sibling->parent = NULL;
+      free( node );
+   }
+
+   recalculate_tree_up( sibling );
    return;
 }
 
@@ -166,7 +219,7 @@ void draw_aabb_from_tree( struct Node * node, QPainter& painter )
          painter.setPen( QPen( Qt::red, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
       }
       painter.drawRect( node->aabb );
-      qDebug( ) << "node" << node << "shapeidx" << node->shape_idx << "parent" << node->parent << "left" << node->left << "right" << node->right;
+      //qDebug( ) << "node" << node << "shapeidx" << node->shape_idx << "parent" << node->parent << "left" << node->left << "right" << node->right;
       if ( node->left != NULL )
       {
          draw_aabb_from_tree( node->left, painter );
@@ -202,7 +255,7 @@ Node * get_node_for_shape( Node * node, uint32 shape_idx )
 
    if ( node->shape_idx == shape_idx )
    {
-      return node
+      return node;
    }
    else
    {

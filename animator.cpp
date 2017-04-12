@@ -60,9 +60,8 @@ float Animator::getFPS( )
    return this->fps;
 }
 
-void Animator::animateNextFrame( QRect bounds )
+void Animator::animateNextFrame( struct Node * aabb_tree_root, QRect bounds )
 {
-
    for ( uint32 shape_idx = 0; shape_idx < ( uint32 ) all_shapes->size( ); shape_idx++ )
    {
       // only animate if shape is not being dragged
@@ -70,7 +69,14 @@ void Animator::animateNextFrame( QRect bounds )
       {
 
          // TODO:  apply forces
-         // TODO:  detect collisions with other objects
+
+         // Broad phase
+         broad_collisions.clear( );
+         get_intersecting_nodes( aabb_tree_root,
+                                 shape_idx,
+                                 (*all_shapes)[ shape_idx ].getAABB( ),
+                                 &broad_collisions );
+         // TODO: narrow-phase collision detection
          // TODO:  resolve collisions
          calcNewPos( shape_idx, bounds );
       }
@@ -118,4 +124,10 @@ void Animator::calcNewPos( uint32 shape_idx, QRect& bounds )
    //qDebug( ) << "dist" << travel_dist << "vel" << vel << "elapsed" << elapsed;
    aabb_updated = ( *all_shapes )[ shape_idx ].setCenter( travel_dist
                                            + ( *all_shapes )[ shape_idx ].getCenter( ) );
+
+   if ( aabb_updated )
+   {
+      ( *all_shapes )[ shape_idx ].node->aabb = ( *all_shapes )[ shape_idx ].getAABB( );
+      recalculate_tree_up( ( *all_shapes )[ shape_idx ].node );
+   }
 }

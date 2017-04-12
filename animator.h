@@ -6,11 +6,12 @@ class Animator
 {
  public:
    Animator( std::vector<ShapeObj> *all_shapes );
-   void animateNextFrame( QRect bounds );
+   void animateNextFrame( struct Node * aabb_tree_root, QRect bounds );
    float getFPS( );
 
  private:
    std::vector<ShapeObj> *all_shapes;
+   std::vector<uint32> broad_collisions;
    QTime time = QTime( );
    float fps = 0.0F;
    bool checkBoundsCollisionX( QRect& bounds, QPainterPath& shape_path, float * dist_to_move );

@@ -5,8 +5,10 @@
 class ShapeObj
 {
  public:
-   bool drag_state = false;
    ShapeObj( ShapeType shape_type );
+
+   struct Node * node;
+   bool drag_state = false;
    bool setCenter( QPointF center );
    void setSize( QSizeF size );
    void setPen( QPen pen );
