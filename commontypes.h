@@ -14,12 +14,18 @@
 #include <vector>
 
 enum ShapeType {
-   FRect,
    FCirc,
+   FRect,
    FLine,
    NUM_SHAPES,
 };
 
 typedef unsigned int uint32;
+typedef unsigned char uint8;
 
-#define FAT_FACTOR 10.0
+#define FAT_FACTOR 18.0
+
+
+// debug flags
+#define DRAW_AABB 1
+#define DRAW_INTERSECTIONS 0

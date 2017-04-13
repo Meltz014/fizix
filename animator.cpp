@@ -60,7 +60,7 @@ float Animator::getFPS( )
    return this->fps;
 }
 
-void Animator::animateNextFrame( struct Node * aabb_tree_root, QRect bounds )
+void Animator::animateNextFrame( struct Node ** aabb_tree_root, QRect bounds )
 {
    for ( uint32 shape_idx = 0; shape_idx < ( uint32 ) all_shapes->size( ); shape_idx++ )
    {
@@ -72,13 +72,13 @@ void Animator::animateNextFrame( struct Node * aabb_tree_root, QRect bounds )
 
          // Broad phase
          broad_collisions.clear( );
-         get_intersecting_nodes( aabb_tree_root,
+         get_intersecting_nodes( *aabb_tree_root,
                                  shape_idx,
                                  (*all_shapes)[ shape_idx ].getAABB( ),
                                  &broad_collisions );
          // TODO: narrow-phase collision detection
          // TODO:  resolve collisions
-         calcNewPos( shape_idx, bounds );
+         calcNewPos( shape_idx, bounds, aabb_tree_root );
       }
    }
    // calculate frames per second
@@ -87,7 +87,7 @@ void Animator::animateNextFrame( struct Node * aabb_tree_root, QRect bounds )
    return;
 }
 
-void Animator::calcNewPos( uint32 shape_idx, QRect& bounds )
+void Animator::calcNewPos( uint32 shape_idx, QRect& bounds, struct Node ** aabb_tree_root )
 {
    QPainterPath shape_path;
    QPointF vel( 0.0, 0.0 );
@@ -127,7 +127,21 @@ void Animator::calcNewPos( uint32 shape_idx, QRect& bounds )
 
    if ( aabb_updated )
    {
-      ( *all_shapes )[ shape_idx ].node->aabb = ( *all_shapes )[ shape_idx ].getAABB( );
-      recalculate_tree_up( ( *all_shapes )[ shape_idx ].node );
+      // If aabb is updated, delete the old node, create a new one, and
+      // re-insert it from the root.  This ensures balance in the tree
+      struct Node * new_node = ( struct Node * ) malloc( sizeof( struct Node ) );
+      new_node->aabb = ( *all_shapes )[ shape_idx ].getAABB( );
+      new_node->shape_idx = shape_idx;
+
+      // remove old node
+      remove_node( aabb_tree_root, ( *all_shapes )[ shape_idx ].node );
+
+      // insert the new one
+      insert_aabb_node( aabb_tree_root, new_node );
+
+      // set shape's node to new node
+      ( *all_shapes )[ shape_idx ].node = new_node;
    }
+
+   return;
 }

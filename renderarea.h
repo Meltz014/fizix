@@ -11,7 +11,7 @@ class RenderArea : public QWidget
    QSize minimumSizeHint( ) const override;
    QSize sizeHint( ) const override;
    void setNewShape( ShapeType new_shape );
-   void removeShape( int shape_idx );
+   void removeShape( uint32 shape_idx );
 
  public slots:
    void addShape( ShapeObj new_shape );
@@ -32,6 +32,7 @@ class RenderArea : public QWidget
    QTime drag_timer = QTime( );
 
    struct Node * aabb_tree_root;
+   bool shapeOutOfBounds( uint32 shape_idx );
 };
 
 

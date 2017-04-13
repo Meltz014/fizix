@@ -205,8 +205,23 @@ struct Node * insert_aabb_node( struct Node ** root, struct Node * new_node )
    return new_node;
 }
 
-void draw_aabb_from_tree( struct Node * node, QPainter& painter )
+void draw_aabb_from_tree( struct Node * node, QPainter& painter, uint8 color )
 {
+
+   Qt::GlobalColor colors[ 11 ] = { Qt::red,
+                                   Qt::blue,
+                                   Qt::cyan,
+                                   Qt::magenta,
+                                   Qt::yellow,
+                                   Qt::darkRed,
+                                   Qt::darkGreen,
+                                   Qt::darkBlue,
+                                   Qt::darkCyan,
+                                   Qt::darkMagenta,
+                                   Qt::darkYellow };
+
+   color %= 11;
+
    if ( node != NULL )
    {
       if ( node->left == NULL && node->right == NULL )
@@ -216,17 +231,17 @@ void draw_aabb_from_tree( struct Node * node, QPainter& painter )
       }
       else
       {
-         painter.setPen( QPen( Qt::red, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
+         painter.setPen( QPen( colors[ color ], 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
       }
       painter.drawRect( node->aabb );
       //qDebug( ) << "node" << node << "shapeidx" << node->shape_idx << "parent" << node->parent << "left" << node->left << "right" << node->right;
       if ( node->left != NULL )
       {
-         draw_aabb_from_tree( node->left, painter );
+         draw_aabb_from_tree( node->left, painter, color + 1 );
       }
       if ( node->right != NULL )
       {
-         draw_aabb_from_tree( node->right, painter );
+         draw_aabb_from_tree( node->right, painter, color + 1 );
       }
    }
    return;

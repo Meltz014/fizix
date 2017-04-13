@@ -1,7 +1,5 @@
 #include "commontypes.h"
 
-#define DRAW_AABB 1
-
 class ShapeObj
 {
  public:
