@@ -4,8 +4,8 @@
 		<Project File="fizix.vpj"/>
 	</Projects>
 	<Environment>
-		<Set Name="PATH" Value="%PATH%;C:\Qt\5.8\mingw53_32\bin;C:\Qt\Tools\mingw530_32\bin"/>
-        <Set Name="QTDIR" Value="C:\cygwin\home\501219\fizix"/>
-        <Set Name="QMAKESPEC" Value="win32-g++"/>
+		<Set Name="PATH" Value="%PATH%;C:\Qt\Qt5.8.0\5.8\msvc2013_64\bin"/>
+		<Set Name="QTDIR" Value="C:\code\fizix"/>
+		<Set Name="QMAKESPEC" Value="win32-msvc2013"/>
 	</Environment>
 </Workspace>

@@ -5,7 +5,7 @@
 TEMPLATE = app
 TARGET = fizix
 INCLUDEPATH += .
-CONFIG += console
+#CONFIG += console
 
 # Input
 QT += core

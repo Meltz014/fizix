@@ -10,7 +10,7 @@
         Version="1"
         DebugCallbackName="windbg"
         OutputFile="%bdfizix.exe"
-        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        CompilerConfigName="Visual Studio 2013">
         <Menu>
             <Target
                 Name="Compile"
@@ -45,7 +45,7 @@
                 Deletable="0"
                 SaveOption="SaveWorkspaceFiles"
                 RunFromDir="%rw">
-                <Exec CmdLine="mingw32-make"/>
+                <Exec CmdLine="nmake"/>
             </Target>
             <Target
                 Name="Rebuild"
@@ -114,7 +114,7 @@
                 RunFromDir="%rw"
                 CaptureOutputWith="ProcessBuffer"
                 SaveOption="SaveWorkspaceFiles">
-                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+                <Exec CmdLine="nmake Makefile.Debug"/>
             </Target>
         </Menu>
         <Includes>
@@ -126,10 +126,10 @@
                 Value="Executable"/>
         </List>
         <PreBuildCommands StopOnError="1">
-            <Exec CmdLine="qmake -makefile"/>
+            <Exec CmdLine="qmake -makefile fizix.pro"/>
         </PreBuildCommands>
         <Libs PreObjects="0">
-            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+            <Lib File="C:/qt/Qt5.8.0/5.8/msvc2013_64/lib/"/>
         </Libs>
     </Config>
     <Config
@@ -138,7 +138,7 @@
         Version="1"
         DebugCallbackName="windbg"
         OutputFile="%bdfizix.exe"
-        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        CompilerConfigName="Visual Studio 2013">
         <Menu>
             <Target
                 Name="Compile"
@@ -173,7 +173,7 @@
                 Deletable="0"
                 SaveOption="SaveWorkspaceFiles"
                 RunFromDir="%rw">
-                <Exec CmdLine="mingw32-make"/>
+                <Exec CmdLine="nmake"/>
             </Target>
             <Target
                 Name="Rebuild"
@@ -242,7 +242,7 @@
                 RunFromDir="%rw"
                 CaptureOutputWith="ProcessBuffer"
                 SaveOption="SaveWorkspaceFiles">
-                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+                <Exec CmdLine="nmake Makefile.Debug"/>
             </Target>
         </Menu>
         <Includes>
@@ -254,10 +254,10 @@
                 Value="Executable"/>
         </List>
         <PreBuildCommands StopOnError="1">
-            <Exec CmdLine="qmake -makefile"/>
+            <Exec CmdLine="qmake -makefile fizix.pro"/>
         </PreBuildCommands>
         <Libs PreObjects="0">
-            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+            <Lib File="C:/qt/Qt5.8.0/5.8/msvc2013_64/lib/"/>
         </Libs>
     </Config>
     <Config
@@ -266,7 +266,7 @@
         DebugCallbackName="gdb"
         Version="1"
         OutputFile="%bdfizix.exe"
-        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        CompilerConfigName="Visual Studio 2013">
         <Menu>
             <Target
                 Name="Compile"
@@ -297,7 +297,7 @@
                 Deletable="0"
                 SaveOption="SaveWorkspaceFiles"
                 RunFromDir="%rw">
-                <Exec CmdLine="mingw32-make"/>
+                <Exec CmdLine="nmake"/>
             </Target>
             <Target
                 Name="Rebuild"
@@ -351,7 +351,7 @@
                 RunFromDir="%rw"
                 CaptureOutputWith="ProcessBuffer"
                 SaveOption="SaveWorkspaceFiles">
-                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+                <Exec CmdLine="nmake Makefile.Debug"/>
             </Target>
         </Menu>
         <List Name="GNUC Options">
@@ -360,13 +360,13 @@
                 Value="Executable"/>
         </List>
         <PreBuildCommands StopOnError="1">
-            <Exec CmdLine="qmake -makefile"/>
+            <Exec CmdLine="qmake -makefile fizix.pro"/>
         </PreBuildCommands>
         <Includes>
             <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
         </Includes>
         <Libs PreObjects="0">
-            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+            <Lib File="C:/qt/Qt5.8.0/5.8/msvc2013_64/lib/"/>
         </Libs>
     </Config>
     <Config
@@ -375,7 +375,7 @@
         DebugCallbackName="gdb"
         Version="1"
         OutputFile="%bdfizix.exe"
-        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        CompilerConfigName="Visual Studio 2013">
         <Menu>
             <Target
                 Name="Compile"
@@ -406,7 +406,7 @@
                 Deletable="0"
                 SaveOption="SaveWorkspaceFiles"
                 RunFromDir="%rw">
-                <Exec CmdLine="mingw32-make"/>
+                <Exec CmdLine="nmake"/>
             </Target>
             <Target
                 Name="Rebuild"
@@ -460,7 +460,7 @@
                 RunFromDir="%rw"
                 CaptureOutputWith="ProcessBuffer"
                 SaveOption="SaveWorkspaceFiles">
-                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+                <Exec CmdLine="nmake Makefile.Debug"/>
             </Target>
         </Menu>
         <List Name="GNUC Options">
@@ -469,13 +469,13 @@
                 Value="Executable"/>
         </List>
         <PreBuildCommands StopOnError="1">
-            <Exec CmdLine="qmake -makefile"/>
+            <Exec CmdLine="qmake -makefile fizix.pro"/>
         </PreBuildCommands>
         <Includes>
             <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
         </Includes>
         <Libs PreObjects="0">
-            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+            <Lib File="C:/qt/Qt5.8.0/5.8/msvc2013_64/lib/"/>
         </Libs>
     </Config>
     <Config
@@ -484,7 +484,7 @@
         DebugCallbackName="gdb"
         Version="1"
         OutputFile="%bdfizix.exe"
-        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        CompilerConfigName="Visual Studio 2013">
         <Menu>
             <Target
                 Name="Compile"
@@ -515,7 +515,7 @@
                 Deletable="0"
                 SaveOption="SaveWorkspaceFiles"
                 RunFromDir="%rw">
-                <Exec CmdLine="mingw32-make"/>
+                <Exec CmdLine="nmake"/>
             </Target>
             <Target
                 Name="Rebuild"
@@ -569,7 +569,7 @@
                 RunFromDir="%rw"
                 CaptureOutputWith="ProcessBuffer"
                 SaveOption="SaveWorkspaceFiles">
-                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+                <Exec CmdLine="nmake Makefile.Debug"/>
             </Target>
         </Menu>
         <List Name="GNUC Options">
@@ -578,13 +578,13 @@
                 Value="Executable"/>
         </List>
         <PreBuildCommands StopOnError="1">
-            <Exec CmdLine="qmake -makefile"/>
+            <Exec CmdLine="qmake -makefile fizix.pro"/>
         </PreBuildCommands>
         <Includes>
             <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
         </Includes>
         <Libs PreObjects="0">
-            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+            <Lib File="C:/qt/Qt5.8.0/5.8/msvc2013_64/lib/"/>
         </Libs>
     </Config>
     <Config
@@ -593,7 +593,7 @@
         DebugCallbackName="gdb"
         Version="1"
         OutputFile="%bdfizix.exe"
-        CompilerConfigName="Cygwin-4.5.3-x86_64-w64-mingw32">
+        CompilerConfigName="Visual Studio 2013">
         <Menu>
             <Target
                 Name="Compile"
@@ -624,7 +624,7 @@
                 Deletable="0"
                 SaveOption="SaveWorkspaceFiles"
                 RunFromDir="%rw">
-                <Exec CmdLine="mingw32-make"/>
+                <Exec CmdLine="nmake"/>
             </Target>
             <Target
                 Name="Rebuild"
@@ -678,7 +678,7 @@
                 RunFromDir="%rw"
                 CaptureOutputWith="ProcessBuffer"
                 SaveOption="SaveWorkspaceFiles">
-                <Exec CmdLine="mingw32-make Makefile.Debug"/>
+                <Exec CmdLine="nmake Makefile.Debug"/>
             </Target>
         </Menu>
         <List Name="GNUC Options">
@@ -687,13 +687,13 @@
                 Value="Executable"/>
         </List>
         <PreBuildCommands StopOnError="1">
-            <Exec CmdLine="qmake -makefile"/>
+            <Exec CmdLine="qmake -makefile fizix.pro"/>
         </PreBuildCommands>
         <Includes>
             <Include Dir="C:/Qt/5.8/mingw53_32/include/"/>
         </Includes>
         <Libs PreObjects="0">
-            <Lib File="C:/Qt/5.8/mingw53_32/lib/"/>
+            <Lib File="C:/qt/Qt5.8.0/5.8/msvc2013_64/lib/"/>
         </Libs>
     </Config>
     <Files>

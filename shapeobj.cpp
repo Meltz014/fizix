@@ -4,6 +4,7 @@ ShapeObj::ShapeObj( ShapeType shape_type )
 {
    this->shape_type = shape_type;
    this->node = NULL;
+   this->net_force = QPointF(0.0, 0.5);
 }
 
 bool ShapeObj::setCenter( QPointF center )
@@ -35,6 +36,11 @@ void ShapeObj::setVelocity( QPointF vel )
    this->velocity = vel;
 }
 
+void ShapeObj::applyForce(QPointF force)
+{
+	this->net_force += force;
+}
+
 QPointF ShapeObj::getCenter( )
 {
    return this->center;
@@ -63,6 +69,11 @@ QPainterPath ShapeObj::getPath( )
 QPointF ShapeObj::getVelocity( )
 {
    return this->velocity;
+}
+
+QPointF ShapeObj::getNetForce( )
+{
+	return this->net_force;
 }
 
 ShapeType ShapeObj::getShapeType( )

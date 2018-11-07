@@ -17,7 +17,11 @@ void get_intersecting_nodes( struct Node * test_node, uint32 current_shape_idx, 
       // check if leaf node
       if ( test_node->left == NULL && test_node->right == NULL )
       {
-         output_shape_idx->push_back( test_node->shape_idx );
+         // don't collide against self
+         if ( current_shape_idx != test_node->shape_idx )
+         {
+            output_shape_idx->push_back(test_node->shape_idx);
+         }
       }
       else
       {
@@ -67,7 +71,6 @@ void remove_node( struct Node ** root, struct Node * node )
 {
    if ( node->parent == NULL )
    {
-      qDebug( ) << "is root";
       free( node );
       *root = NULL;
       return;

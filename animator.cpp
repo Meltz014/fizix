@@ -62,13 +62,16 @@ float Animator::getFPS( )
 
 void Animator::animateNextFrame( struct Node ** aabb_tree_root, QRect bounds )
 {
+   QPointF new_vel(0.0, 0.0);
+   uint32 other_shape_idx = 0;
+   bool collides = false;
+
    for ( uint32 shape_idx = 0; shape_idx < ( uint32 ) all_shapes->size( ); shape_idx++ )
    {
+      collides = false;
       // only animate if shape is not being dragged
       if ( !(*all_shapes)[ shape_idx ].drag_state )
       {
-
-         // TODO:  apply forces
 
          // Broad phase
          broad_collisions.clear( );
@@ -76,9 +79,26 @@ void Animator::animateNextFrame( struct Node ** aabb_tree_root, QRect bounds )
                                  shape_idx,
                                  (*all_shapes)[ shape_idx ].getAABB( ),
                                  &broad_collisions );
-         // TODO: narrow-phase collision detection
+         // narrow-phase collision detection
+         for ( uint32 broad_idx = 0; broad_idx < broad_collisions.size(); broad_idx++ )
+         {
+            other_shape_idx = broad_collisions[broad_idx];
+            if ( (*all_shapes)[shape_idx].getPath().intersects((*all_shapes)[other_shape_idx].getPath()) )
+            {
+               qDebug() << "Collision between " << QString::number(shape_idx) << " and " << QString::number(other_shape_idx);
+               collides = true;
+            }
+         }
          // TODO:  resolve collisions
          calcNewPos( shape_idx, bounds, aabb_tree_root );
+      }
+      if ( collides )
+      {
+         (*all_shapes)[ shape_idx ].setPen( RED_PEN );
+      }
+      else
+      {
+         (*all_shapes)[ shape_idx ].setPen( DEFAULT_PEN );
       }
    }
    // calculate frames per second
@@ -100,6 +120,12 @@ void Animator::calcNewPos( uint32 shape_idx, QRect& bounds, struct Node ** aabb_
    shape_path = ( *all_shapes )[ shape_idx ].getPath( );
    elapsed = time.elapsed( );
    vel = ( *all_shapes )[ shape_idx ].getVelocity( );
+
+   // apply force
+   // f = m * a.  Assume m = 1 | f = a
+   // vf = vi + a * t
+   vel = ( *all_shapes )[ shape_idx ].getVelocity( ) + (*all_shapes)[shape_idx].getNetForce() * elapsed;
+   (*all_shapes)[shape_idx].setVelocity(vel);
 
    // check collision with boundary
    if ( !bounds.contains( shape_path.boundingRect( ).toRect( ) ) )

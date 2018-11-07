@@ -111,37 +111,6 @@ void RenderArea::paintEvent( QPaintEvent * /* event */ )
       painter.save( );
       all_shapes[ shape_idx ].draw( painter );
 
-   #if DRAW_INTERSECTIONS
-      // fill any intersections
-      for ( uint32 other_idx = 0; other_idx < ( uint32 )all_shapes.size( ); other_idx++ )
-      {
-         if ( other_idx == shape_idx )
-         {
-            continue;
-         }
-         if ( all_shapes[ shape_idx ].intersects( all_shapes[ other_idx ] ) )
-         {
-            QPainterPath intersection = all_shapes[ shape_idx ].getPath( ) & all_shapes[ other_idx ].getPath( );
-            painter.fillPath( intersection, Qt::blue );
-
-            painter.save( );
-            painter.setPen( QPen( Qt::cyan, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter.drawEllipse( intersection.pointAtPercent( 0.0 ), 5, 5 );
-            painter.setPen( QPen( Qt::red, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter.drawEllipse( intersection.pointAtPercent( 0.25 ), 5, 5 );
-            painter.setPen( QPen( Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter.drawEllipse( intersection.pointAtPercent( 0.50 ), 5, 5 );
-            painter.setPen( QPen( Qt::green, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter.drawEllipse( intersection.pointAtPercent( 0.75 ), 5, 5 );
-
-            painter.setPen( QPen( Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-            painter.drawLine( intersection.pointAtPercent( 0.0 ), intersection.pointAtPercent( 0.50 ) );
-            painter.drawLine( intersection.pointAtPercent( 0.25 ), intersection.pointAtPercent( 0.75 ) );
-            painter.restore( );
-         }
-      }
-   #endif
-
       painter.restore( );
    }
 
@@ -194,8 +163,8 @@ void RenderArea::mousePressEvent( QMouseEvent *event )
    else if ( button & Qt::RightButton )
    {
       ShapeObj new_shape = ShapeObj( this->new_shape_type );
-      new_shape.setPen( QPen( Qt::blue, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin ) );
-      new_shape.setBrush( QBrush( ) );
+      new_shape.setPen( DEFAULT_PEN );
+      new_shape.setBrush( DEFAULT_BRUSH );
       new_shape.setCenter( QPoint( x_coord, y_coord ) );
       new_shape.setSize( QSize( 80, 80 ) );
       addShape( new_shape );
