@@ -4,7 +4,7 @@ ShapeObj::ShapeObj( ShapeType shape_type )
 {
    this->shape_type = shape_type;
    this->node = NULL;
-   this->net_force = QPointF(0.0, 0.5);
+   this->net_force = QPointF(0.0, GRAVITY);
 }
 
 bool ShapeObj::setCenter( QPointF center )
