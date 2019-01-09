@@ -26,3 +26,4 @@ The corresponding binary tree for this configuration would look like this:
 ![](https://i.imgur.com/uIYIPO6.png)
 
 The leaf nodes represent shapes with an AABB.  Each non-leaf node represents an AABB containing its two children.  You can see that the individual shape AABBs (green) are padded.  This is a performance gain so the tree does not need to be rebalanced every frame.  For instance, if a shape is moving, its AABB only gets update once the shape moves outside of the current AABB.  A shape will only be re-inserted in the tree once its AABB gets updated.
+
